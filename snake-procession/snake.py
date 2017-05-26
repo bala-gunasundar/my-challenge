@@ -2,15 +2,12 @@
 
 import sys
 
-def checkInput(s):
+def checkInput(s, strlen):
 
     start = 'H'
     end = 'T'
 
-    #print s
-    for ch in s:
-        # search need_ch, if end print invalid
-        # if start found, swap start and end
+    for ch in s[:strlen]:
         if ch == start:
             start, end = end, start
         elif ch == end:
@@ -24,12 +21,11 @@ def checkInput(s):
         return False
 
 def main():
-    f = open('snake.txt', 'r')
-    no = int(f.readline())
+    no = int(sys.stdin.readline())
     for i in range(no):
-        strlen = f.readline()
-        input = f.readline()
-        if checkInput(input):
+        strlen = int(sys.stdin.readline())
+        inp = sys.stdin.readline()
+        if checkInput(inp, strlen):
             print 'Valid'
         else:
             print 'Invalid'

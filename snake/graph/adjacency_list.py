@@ -84,6 +84,8 @@ def main():
     # g.append([2,3,4])
     # g.insert(1, [0,0,0])
     # g.modify(1, [1,1,1])
+
+    # Store edges
     g.insert(1, [2])
     g.insert(2, [4])
     g.insert(3, [1,4])

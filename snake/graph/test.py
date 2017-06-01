@@ -1,6 +1,31 @@
-from adjacency_list import Graph
+#!/usr/bin/python
 
-g = Graph()
-g.insert(0, [1,2,4])
-g.append([1,2,3])
-g.display()
+
+graph = { "a" : ["c"],
+          "b" : ["c", "e"],
+          "c" : ["a", "b", "d", "e"],
+          "d" : ["c"],
+          "e" : ["c", "b"],
+          "f" : [],
+	  "g" : []
+        }
+
+def generate_edges(graph):
+    edges = []
+    for node in graph:
+        for neighbour in graph[node]:
+            edges.append((node, neighbour))
+
+    return edges
+
+def find_isolated_nodes(graph):
+    """ returns a list of isolated nodes. """
+    isolated = []
+    for node in graph:
+        if not graph[node]:
+            isolated += node
+    return isolated
+
+print(generate_edges(graph))
+print find_isolated_nodes(graph)
+

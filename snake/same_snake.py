@@ -200,31 +200,29 @@ def same_snake(s1, s2):
         print 'no'
 
 def main():
-    # no = int(raw_input())
-    # for inp in range(no):
-    #     x1, y1, x2, y2 = raw_input().split()
-    #     s1 = [[int(x1), int(y1)], [int(x2), int(y2)]]
+    no = int(raw_input())
 
-    #     x1, y1, x2, y2 = raw_input().split()
-    #     s2 = [[int(x1), int(y1)], [int(x2), int(y2)]]
+    snake = []
+    for inp in range(no):
+        x11, y11, x12, y12 = raw_input().split()
+        x21, y21, x22, y22 = raw_input().split()
 
-    #     print s1
-    #     print s2
+        s1 = [(int(x11), int(y11)), (int(x12), int(y12))]
+        s2 = [(int(x21), int(y21)), (int(x22), int(y22))]
+        snake.append([s1,s2])
 
-    s1 = [(2, 1), (8, 1)]
-    s2 = [(11, 1), (7, 1)]
-    s3 = s1
-    s4 = [(11, 1), (9, 1)]
-    s5 = s1
-    s6 = [(3, 1), (3, -2)]
-    s7 = s1
-    s8 = [(2, 1), (2, -2)]
+    # input format
+    # s1 = [(2, 1), (8, 1)]
+    # s2 = [(11, 1), (7, 1)]
+    # s3 = s1
+    # s4 = [(11, 1), (9, 1)]
+    # s5 = s1
+    # s6 = [(3, 1), (3, -2)]
+    # s7 = s1
+    # s8 = [(2, 1), (2, -2)]
 
-    same_snake(s1, s2)
-    same_snake(s3, s4)
-    same_snake(s5, s6)
-    same_snake(s7, s8)
-
+    for sightings in snake:
+        same_snake(sightings[0], sightings[1])
 
 if __name__ == '__main__':
     main()

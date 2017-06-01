@@ -63,6 +63,7 @@ def neighbour(vertex, direction):
     else:
         raise IOError, 'Direction not axis parallel'
 
+opposite = {'right' : 'left', 'left' : 'right', 'up' : 'down', 'down': 'up'}
 def get_edges(head, tail):
     #head = s[0]
     #tail = s[1]
@@ -71,12 +72,18 @@ def get_edges(head, tail):
     edge = {}
 
     direction = get_direction(head, tail)
-    print direction
-    for vertex in get_vertices(head, tail):
-        edge[vertex] = neighbour(vertex, direction)
+    print 'direction =', direction
 
-    # Last one doesn't have an edge
-    del edge[tail]
+    for vertex in get_vertices(head, tail):
+        edge[vertex] = [neighbour(vertex, direction)]
+
+    for vertex in get_vertices(tail, head):
+        # No edge for head and tail
+        if vertex == head or vertex == tail:
+            continue
+        val = edge[vertex]
+        val.append(neighbour(vertex, opposite[direction]))
+        edge[vertex] = val
 
     return edge
 
@@ -97,9 +104,13 @@ def next_vertex(vertex, direction):
 
 
 # Return (s1 U s2)
-def union(s1, s2):
-    s = set(s1) | set(s2)
-    return s
+def union(e1, e2):
+    print e1
+    print e2
+
+def display_edges(e):
+    for key in e.keys():
+        print '%s = %s' %(key, e[key])
 
 def same_snake(s1, s2):
     head1 = s1[0]
@@ -109,13 +120,16 @@ def same_snake(s1, s2):
     tail2 = s2[1]
 
     print head1, tail1
-    print get_vertices(head1, tail1)
-    print get_edges(head1, tail1)
+    vertices1 = get_vertices(head1, tail1)
+    print 'vertices =', vertices1
+    edges1 = get_edges(head1, tail1)
+    display_edges(edges1)
 
-    print '*' * 10
     print head2, tail2
-    print get_vertices(head2, tail2)
-    print get_edges(head2, tail2)
+    vertices2 = get_vertices(head2, tail2)
+    print 'vertices =', vertices2
+    edges2 = get_edges(head2, tail2)
+    display_edges(edges2)
 
 
 def main():
@@ -131,11 +145,9 @@ def main():
     #     print s2
 
     s1 = [(2, 1), (8, 1)]
-    s2 = [(11, 1), (7, 1)]
+    s2 = [(3, 1), (3, -2)]
 
-    s3 = [(2,1), (8,1)]
-    s4 = [(3,1), (3,8)]
-    same_snake(s3, s4)
+    same_snake(s1, s2)
 
 
 if __name__ == '__main__':

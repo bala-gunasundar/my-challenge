@@ -105,8 +105,24 @@ def next_vertex(vertex, direction):
 
 # Return (s1 U s2)
 def union(e1, e2):
-    print e1
-    print e2
+    display_edges(e1)
+    print '*' * 10
+    display_edges(e2)
+    print '*' * 10
+
+    if len(e1.keys()) < len(e2.keys()):
+        src = e1
+        dest = e2
+    else:
+        src = e2
+        dest = e1
+
+    for key in src.keys():
+        if key in dest.keys():
+            val = src[key]
+            dest[key].append(src[key])
+
+    return dest
 
 def display_edges(e):
     for key in e.keys():
@@ -123,13 +139,15 @@ def same_snake(s1, s2):
     vertices1 = get_vertices(head1, tail1)
     print 'vertices =', vertices1
     edges1 = get_edges(head1, tail1)
-    display_edges(edges1)
+    #display_edges(edges1)
 
     print head2, tail2
     vertices2 = get_vertices(head2, tail2)
     print 'vertices =', vertices2
     edges2 = get_edges(head2, tail2)
-    display_edges(edges2)
+    #display_edges(edges2)
+
+    display_edges(union(edges1, edges2))
 
 
 def main():

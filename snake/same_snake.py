@@ -74,42 +74,31 @@ def get_edges(head, tail):
     direction = get_direction(head, tail)
     print 'direction =', direction
 
+    # right
     for vertex in get_vertices(head, tail):
+        if vertex == tail:
+            continue
         edge[vertex] = [neighbour(vertex, direction)]
 
+    #left
     for vertex in get_vertices(tail, head):
         # No edge for head and tail
-        if vertex == head or vertex == tail:
-            continue
-        val = edge[vertex]
-        val.append(neighbour(vertex, opposite[direction]))
-        edge[vertex] = val
+        if vertex == head:
+            break
+
+        if vertex in edge.keys(): # Append if entry exists
+            val = edge[vertex]
+            val.append(neighbour(vertex, opposite[direction]))
+            edge[vertex] = val
+        else: # Add if new entry
+            edge[vertex] = [neighbour(vertex, opposite[direction])]
 
     return edge
 
-def next_vertex(vertex, direction):
-    x = 0
-    y = 1
-
-    if direction == 'right':
-        return (vertex[x] + 1, vertex[y])
-    elif direction == 'left':
-        return (vertex[x] - 1, vertex[y])
-    elif direction == 'up':
-        return (vertex[x], vertex[y] + 1)
-    elif direction == 'down':
-        return (vertex[x], vertex[y] - 1)
-    else:
-        raise IOError, 'Invalid direction: %s' %direction
-
-
 # Return (s1 U s2)
 def union(e1, e2):
-    display_edges(e1)
-    print '*' * 10
-    display_edges(e2)
-    print '*' * 10
-
+    #display_edges(e1)
+    #display_edges(e2)
     if len(e1.keys()) < len(e2.keys()):
         src = e1
         dest = e2
@@ -117,16 +106,36 @@ def union(e1, e2):
         src = e2
         dest = e1
 
+    #display_edges(src)
+    #display_edges(dest)
+
     for key in src.keys():
-        if key in dest.keys():
-            val = src[key]
-            dest[key].append(src[key])
+        if key in dest.keys(): #(8,1) in
+            val = src[key] #[(x,y), (x,y)]
+            for item in val:
+                if not item in dest[key]:
+                    dest[key].append(item)
+        else:
+            dest[key] = src[key]
 
     return dest
 
 def display_edges(e):
+    print '[','*' * 10
     for key in e.keys():
-        print '%s = %s' %(key, e[key])
+        print '\t%s = %s' %(key, e[key])
+    print '*' * 10, ']'
+
+def check_edges(e):
+    for key in e.keys():
+        if len(e[key]) > 2:
+            return False
+
+    return True
+
+def connected(head, tail, edges):
+
+    return True
 
 def same_snake(s1, s2):
     head1 = s1[0]
@@ -140,15 +149,18 @@ def same_snake(s1, s2):
     print 'vertices =', vertices1
     edges1 = get_edges(head1, tail1)
     #display_edges(edges1)
-
     print head2, tail2
     vertices2 = get_vertices(head2, tail2)
     print 'vertices =', vertices2
     edges2 = get_edges(head2, tail2)
     #display_edges(edges2)
-
-    display_edges(union(edges1, edges2))
-
+    print 'Union ='
+    edges = union(edges1, edges2)
+    display_edges(edges)
+    if check_edges(edges):
+        print 'Yes'
+    else:
+        print 'no'
 
 def main():
     # no = int(raw_input())
@@ -163,9 +175,21 @@ def main():
     #     print s2
 
     s1 = [(2, 1), (8, 1)]
-    s2 = [(3, 1), (3, -2)]
+    s2 = [(11, 1), (7, 1)]
+
+    s3 = s1
+    s4 = [(11, 1), (9, 1)]
+
+    s5 = s1
+    s6 = [(3, 1), (3, -2)]
+
+    s7 = s1
+    s8 = [(2, 1), (2, -2)]
 
     same_snake(s1, s2)
+    same_snake(s3, s4)
+    same_snake(s5, s6)
+    #same_snake(s7, s8)
 
 
 if __name__ == '__main__':
